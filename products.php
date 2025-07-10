@@ -1,0 +1,244 @@
+<?php 
+    
+    include 'header.php';
+
+?>
+
+
+<body id="page-top">
+    <div id="wrapper">
+        <nav class="navbar align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0 navbar-dark">
+            <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="index.php">
+                    <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-laugh-wink"></i></div>
+                    <div class="sidebar-brand-text mx-3"><span>AGENT</span></div>
+                </a>
+                <hr class="sidebar-divider my-0">
+                <ul class="navbar-nav text-light" id="accordionSidebar">
+                    <li class="nav-item">
+                        <a class="nav-link " href="index.php"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a><a class="nav-link active" href="products.php"><svg class="bi bi-card-list" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16"> <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"></path> <path d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8zm0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zM4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zm0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z"></path> </svg><span>&nbsp;Products</span>
+                        </a>
+                        <a class="nav-link " href="cart.php"><svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="1em" viewBox="0 0 24 24" width="1em" fill="currentColor">
+                                <rect fill="none" height="24" width="24"></rect>
+                                <path d="M13,10h-2V8h2V10z M13,6h-2V1h2V6z M7,18c-1.1,0-1.99,0.9-1.99,2S5.9,22,7,22s2-0.9,2-2S8.1,18,7,18z M17,18 c-1.1,0-1.99,0.9-1.99,2s0.89,2,1.99,2s2-0.9,2-2S18.1,18,17,18z M8.1,13h7.45c0.75,0,1.41-0.41,1.75-1.03L21,4.96L19.25,4l-3.7,7 H8.53L4.27,2H1v2h2l3.6,7.59l-1.35,2.44C4.52,15.37,5.48,17,7,17h12v-2H7L8.1,13z"></path>
+                            </svg><span>&nbsp;My Cart (<?php 
+                                                            session_start();
+                                                            if(isset($_SESSION['cart'])){
+                                                                print_r(count($_SESSION['cart'])); 
+                                                            }else{
+                                                            echo "0";
+                                                            }
+                                
+                                                        ?>)</span>
+                        </a>
+                        <a class="nav-link" href="orders.php"><svg class="bi bi-list-task" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M2 2.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V3a.5.5 0 0 0-.5-.5H2zM3 3H2v1h1V3z"></path><path d="M5 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM5.5 7a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 4a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9z"></path><path fill-rule="evenodd" d="M1.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5V7zM2 7h1v1H2V7zm0 3.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5H2zm1 .5H2v1h1v-1z"></path></svg><span>&nbsp;Orders</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
+            </div>
+        </nav>
+        
+        <?php
+
+    include('navbar.php');
+
+    include('database.php');
+
+    
+    if(isset($_GET['limit'])){
+        $limit = $_GET['limit'];
+    }else{
+        $limit = 20;
+    }
+    // $page = $_GET['page'];
+    if(isset($_GET['page'])){
+        $page = $_GET['page'];
+    }else{
+        $page = 1;
+    }
+    $offset = ($page - 1) * $limit;
+
+$product_search = "";
+        if(isset($_POST['product_search_submit'])){
+            $product_search = $_POST['product_search'];
+            // echo $table_search;
+        }
+
+        if($product_search == ""){
+            $query = "SELECT * FROM products ORDER BY id DESC LIMIT {$offset},{$limit}";
+    $result = mysqli_query($conn, $query);
+            // echo $table_search;
+        }else{
+            // echo $table_search;
+            $query = "SELECT * FROM products WHERE name LIKE '%$product_search%' or  description LIKE '%$product_search%'  ORDER BY id DESC LIMIT {$offset},{$limit}";
+    $result = mysqli_query($conn, $query);
+        }
+
+    
+?>
+
+                <div class="container-fluid">
+                    <h3 class="text-dark mb-4">Products</h3>
+                    <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6 text-nowrap">
+                                    <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label class="form-label">Show&nbsp;<select class="d-inline-block form-select form-select-sm" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+                                                <option value="products.php?limit=10" <?php 
+                                                if(!(isset($_GET['limit'])) || ($_GET['limit'] == 10)){
+                                                    echo 'selected';
+                                                }
+                                            ?>>10</option>
+                                                <option value="products.php?limit=25" <?php 
+                                                if(isset($_GET['limit']) && ($_GET['limit'] == 25)){
+                                                    echo 'selected';
+                                                }
+                                            ?>>25</option>
+                                                <option value="products.php?limit=50" <?php 
+                                                if(isset($_GET['limit']) && ($_GET['limit'] == 50)){
+                                                    echo 'selected';
+                                                }
+                                            ?>>50</option>
+                                                <option value="products.php?limit=100" <?php 
+                                                if(isset($_GET['limit']) && ($_GET['limit'] == 100)){
+                                                    echo 'selected';
+                                                }
+                                            ?>>100</option>
+                                            </select>&nbsp;</label></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="text-md-end dataTables_filter" id="dataTable_filter">
+                                        <form class="d-none d-sm-inline-block me-auto ms-md-3 my-2 my-md-0 mw-100 navbar-search" method="POST" action="products.php">
+                                            <div class="input-group">
+                                                <label class="form-label">
+                                                    <input type="text" class="form-control form-control-sm" aria-controls="dataTable" placeholder="Search" name="product_search">
+                                                </label>
+                                                <button class="btn btn-primary py-0" type="submit" name="product_search_submit"><i class="fas fa-search"></i></button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                    <div class="container">
+                        <div class="row">
+                            <?php
+                                        if (mysqli_num_rows($result) > 0) {
+                                            // $sn=$offset+1;
+                                            $price = "slab_".$_SESSION['slab']."_price";
+
+                                            while($data = mysqli_fetch_assoc($result)) {
+                                                
+                                    ?>
+                            <div class="col-lg-3 mt-3">
+                                <div class="card">
+                                    
+                                    <img src="admin/uploads/<?php echo $data['images']; ?>" height="250" width="200" style="margin: 20px;">
+                                    <div class="card-body text-center">
+                                        
+                                        <h5 class="card-title"><b><?php echo $data['name']; ?></b></h5>
+                                        <p class="card-text"><?php //echo $data['description']; ?>
+                                            <!-- <br> --><b>&#8377; <?php echo $data[$price]; ?></b> 
+                                        </p>
+                                        <form action="cart.php" method="POST">
+                                            <?php
+
+                                            if(isset($_SESSION['cart_products'])){
+                                                // print_r($_SESSION['cart_products']);
+                                                if (in_array($data['name'], $_SESSION['cart_products'])){
+                                                    $disabled = "disabled";
+                                                }else{
+                                                    $disabled = "";
+                                                }
+                                            }else{
+                                                $disabled = "";
+                                            }
+                                            ?>
+                                            <button class="btn btn-info" type="submit" name="add_to_cart" <?php echo $disabled; ?>>Add To Cart</button>
+                                            <input type="hidden" name="image" value="<?php echo $data['images']; ?>">
+                                            <input type="hidden" name="title" value="<?php echo $data['name']; ?>">
+                                            <!-- <input type="hidden" name="description" value="description1"> -->
+                                            <input type="hidden" name="price" value="<?php echo $data[$price]; ?>">
+                                        </form>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <?php
+                                        // $sn++;
+                                    }
+                                }else{
+                                            ?>
+
+                                            <td colspan="8"> <center><span style="color:red;">No data found</span></center> </td>
+
+                                            <?php
+
+                                        }  ?>
+                            
+                            <?php
+
+                            $sql = "SELECT * FROM products";
+                            $rs = mysqli_query($conn, $sql);
+
+                            if(mysqli_num_rows($rs) > 0){
+
+                                $total_records = mysqli_num_rows($rs);
+                                
+                                $total_page = ceil($total_records / $limit);
+
+                                $show_from_record = ($offset + 1);
+                                if($page!=$total_page){
+                                    $show_to_record = ($limit * $page);
+                                }else{
+                                    $show_to_record = $total_records;
+                                }
+
+                                ?>
+
+                            <div class="row">
+                                <div class="col-md-6 align-self-center">
+                                    <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite"><?php echo'Showing '.$show_from_record.' to '.$show_to_record.' of '.$total_records; ?></p>
+                                </div>
+                                <div class="col-md-6">
+                                    <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
+                                        <ul class="pagination">
+                                            <?php
+                                            if($page > 1){
+                                                echo '<li class="page-item"><a class="page-link" aria-label="Previous" href="products.php?page='.($page -1).'"><span aria-hidden="true">«</span></a></li>';
+                                            }else{
+                                                echo '<li class="page-item disabled"><a class="page-link" aria-label="Previous" href="products.php?page='.($page -1).'"><span aria-hidden="true">«</span></a></li>';
+                                            }
+                                            
+                                            for($i =1; $i<=$total_page; $i++){
+                                                if($i == $page){
+                                                    $active = "active ";
+                                                }else{
+                                                    $active = "";
+                                                }
+                                                echo '<li class="page-item '.$active.'"><a class="page-link" href="products.php?page='.$i.'">'.$i.'</a></li>';
+                                            }
+
+                                            if($total_page > $page){
+                                                echo '<li class="page-item"><a class="page-link" aria-label="Next" href="products.php?page='.($page +1).'"><span aria-hidden="true">»</span></a></li>';
+                                            }else{
+                                                echo '<li class="page-item disabled"><a class="page-link" aria-label="Next" href="products.php?page='.($page +1).'"><span aria-hidden="true">»</span></a></li>';
+                                            }
+                                            
+                                            ?>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                            <?php
+                            }
+
+                            ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <?php
+
+    include('footer.php');
+    
+?>
